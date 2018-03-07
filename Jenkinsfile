@@ -1,7 +1,7 @@
 def label = "jenkins-slave-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label, containers: [
-  containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'gradle', image: 'niwang/gradle:0.0.1', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
 ],
 volumes: [
