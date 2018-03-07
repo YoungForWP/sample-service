@@ -11,7 +11,6 @@ volumes: [
  node(label) {
     def myRepo = checkout scm
     def gitCommit = myRepo.GIT_COMMIT
-    def gitBranch = myRepo.GIT_BRANCH
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
@@ -20,8 +19,6 @@ volumes: [
         container('gradle') {
           sh """
             pwd
-            echo "GIT_BRANCH=${gitBranch}" >> /etc/environment
-            echo "GIT_COMMIT=${gitCommit}" >> /etc/environment
             ./gradlew test
             """
         }
