@@ -4,7 +4,6 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
 ],
 volumes: [
-  hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]){
  node(label) {
@@ -32,7 +31,8 @@ volumes: [
       container('docker') {
 
       sh """
-        docker build -t sample-service:${currentBuild.number} .
+        docker build -t ${ECR_HOST}/sample-service:${currentBuild.number} .
+        docker push ${ECR_HOST}/sample-service:${currentBuild.number}
         """
 
       }
