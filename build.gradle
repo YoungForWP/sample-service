@@ -36,3 +36,7 @@ dependencies {
 	compile group: 'ch.qos.logback', name: 'logback-access', version: '1.2.3'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '4.6'
+}

@@ -1,7 +1,6 @@
 def label = "jenkins-slave-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label, containers: [
-  containerTemplate(name: 'gradle', image: 'niwang/gradle:0.0.1', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
 ],
 volumes: [
@@ -16,12 +15,10 @@ volumes: [
 
     stage('Test') {
       try {
-        container('gradle') {
-          sh """
-            pwd
-            ./gradlew test
-            """
-        }
+        sh """
+          pwd
+          ./gradlew test
+          """
       }
       catch (exc) {
         println "Failed to test - ${currentBuild.fullDisplayName}"
@@ -29,9 +26,7 @@ volumes: [
       }
     }
     stage('Build') {
-      container('gradle') {
-        sh "./gradlew build"
-      }
+      sh "./gradlew build"
     }
     stage('Create Docker images') {
       container('docker') {
